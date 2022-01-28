@@ -49,10 +49,7 @@ async def validate_github_webhook(request: Request) -> Union[str, int, bool]:
             headers.get('X-Hub-Signature-256').split('=')[1],
             await request.read()
         )
-        if valid_signature:
-            return hook_target['chat_id']
-        else:
-            return False
+        return hook_target['chat_id'] if valid_signature else False
     except (JSONDecodeError, AttributeError) as error:
         logging.warning("Invalid: %s", error)
         return False

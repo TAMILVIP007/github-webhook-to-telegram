@@ -33,11 +33,9 @@ async def send_to_telegram(session: ClientSession,
                            request: Request) -> str:
     message_text: Optional[str] = await format_github_webhook(request)
     if not message_text:
-        tg_status = "nothing to send"
-    else:
-        tg_succeed: bool = await send_message(session, chat_id, message_text)
-        tg_status: str = f"{'succeed' if tg_succeed else 'failed'}"
-    return tg_status
+        return "nothing to send"
+    tg_succeed: bool = await send_message(session, chat_id, message_text)
+    return f"{'succeed' if tg_succeed else 'failed'}"
 
 
 async def send_message(session: ClientSession,
